@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+
 import Spinner from '../spinner/Spinner';
 import ErrorIndicator from '../error-indicator/ErrorIndicator';
+import ErrorBoundary from '../error-boundary/ErrorBoundary';
 
 class Home extends Component {
   state = {
@@ -13,8 +15,10 @@ class Home extends Component {
     return (
       <div>
         <h2>Home</h2>
-        {spinner}
-        {isError}
+        <ErrorBoundary>
+          {spinner}
+          {isError}
+        </ErrorBoundary>
       </div>
     );
   }
