@@ -1,18 +1,14 @@
 import React from 'react';
 
-import withBookstoreService from '../hoc/with-bookstore-service';
 import BookList from '../../components/book-list/BookList';
 
-const HomePage = ({ bookstoreService }) => {
-  const { books } = bookstoreService;
-  console.log(books);
-
+const HomePage = () => {
   return (
     <div>
       <h2>Home</h2>
-      <BookList books={books} />
+      <BookList />
     </div>
   );
 };
 
-export default withBookstoreService()(HomePage);
+export default HomePage;

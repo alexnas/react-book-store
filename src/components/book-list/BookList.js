@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 
 import './BookList.css';
 import BookListItem from '../book-list-item/BookListItem';
@@ -25,4 +26,8 @@ class BookList extends Component {
   }
 }
 
-export default BookList;
+const mapStateToProps = ({ books }) => {
+  return { books };
+};
+
+export default connect(mapStateToProps)(BookList);
