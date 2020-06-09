@@ -9,8 +9,8 @@ import withBookstoreService from '../hoc/with-bookstore-service';
 const App = () => {
   return (
     <main role='main' className='container'>
-      <ShopHeader numItems={5} total={210} />
       <BrowserRouter>
+        <ShopHeader numItems={5} total={210} />
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/cart' component={CartPage} />

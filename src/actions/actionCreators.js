@@ -1,4 +1,4 @@
-import BOOKS_LOADED from './actionTypes';
+import { BOOKS_LOADED } from './actionTypes';
 
 const booksLoaded = newBooks => {
   return {

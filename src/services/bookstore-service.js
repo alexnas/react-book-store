@@ -28,7 +28,11 @@ export default class BookstoreService extends Component {
     },
   ];
 
-  getBooks = async () => {
-    return this.books;
-  };
+  getBooks() {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(this.books);
+      }, 700);
+    });
+  }
 }

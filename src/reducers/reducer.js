@@ -1,7 +1,8 @@
-import BOOKS_LOADED from '../actions/actionTypes';
+import { BOOKS_LOADED } from '../actions/actionTypes';
 
 const initialState = {
   books: [],
+  loading: true,
 };
 
 const reducer = (state = initialState, action) => {
@@ -9,6 +10,7 @@ const reducer = (state = initialState, action) => {
     case BOOKS_LOADED:
       return {
         books: action.payload,
+        loading: false,
       };
     default:
       return state;
