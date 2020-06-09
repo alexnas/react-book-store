@@ -21,8 +21,7 @@ class BookList extends Component {
     const { books } = this.props;
     return (
       <Fragment>
-        <h2>BookList</h2>
-        <ul>
+        <ul className='book-list'>
           {books &&
             books.map(book => {
               return (
