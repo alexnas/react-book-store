@@ -5,6 +5,25 @@ import {
   BOOK_ADDED_TO_CART,
 } from '../actions/actionTypes';
 
+const updateCartItem = (book, item = {}) => {
+  const { id = book.id, title = book.title, count = 0, total = 0 } = item;
+
+  return {
+    id,
+    title,
+    count: count + 1,
+    total: total + book.price,
+  };
+};
+
+const updateCartItems = (cartItems, item, idx) => {
+  if (idx === -1) {
+    return [...cartItems, item];
+  } else {
+    return [...cartItems.slice(0, idx), item, ...cartItems.slice(idx + 1)];
+  }
+};
+
 const initialState = {
   books: [],
   loading: true,
@@ -14,8 +33,6 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  console.log('reducer type', action.type, action.payload);
-
   switch (action.type) {
     case FETCH_BOOKS_REQUEST:
       return {
@@ -41,16 +58,15 @@ const reducer = (state = initialState, action) => {
     case BOOK_ADDED_TO_CART:
       const bookId = action.payload;
       const book = state.books.find(book => book.id === bookId);
-      const newItem = {
-        id: book.id,
-        title: book.title,
-        count: 1,
-        total: book.price,
-      };
+      const itemIndex = state.cartItems.findIndex(({ id }) => id === bookId);
+      const item = state.cartItems[itemIndex];
+
+      const newItem = updateCartItem(book, item);
       return {
         ...state,
-        cartItems: [...state.cartItems, newItem],
+        cartItems: updateCartItems(state.cartItems, newItem, itemIndex),
       };
+
     default:
       return state;
   }
