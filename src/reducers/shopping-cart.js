@@ -1,14 +1,14 @@
 import {
-  FETCH_BOOKS_REQUEST,
-  FETCH_BOOKS_SUCCESS,
-  FETCH_BOOKS_FAILURE,
   BOOK_ADDED_TO_CART,
   BOOK_SUBTRACTED_FROM_CART,
   BOOK_REMOVED_FROM_CART,
 } from '../actions/actionTypes';
 
 const updateOrder = (state, bookId, quantity) => {
-  const { books, cartItems } = state;
+  const {
+    bookList: { books },
+    shoppingCart: { cartItems },
+  } = state;
 
   const book = books.find(({ id }) => id === bookId);
   const itemIndex = cartItems.findIndex(({ id }) => id === bookId);
@@ -16,7 +16,7 @@ const updateOrder = (state, bookId, quantity) => {
 
   const newItem = updateCartItem(book, item, quantity);
   return {
-    ...state,
+    orderTotal: 0,
     cartItems: updateCartItems(cartItems, newItem, itemIndex),
   };
 };
@@ -43,40 +43,15 @@ const updateCartItems = (cartItems, item, idx) => {
   }
 };
 
-const initialState = {
-  books: [],
-  loading: true,
-  error: null,
-  cartItems: [],
-  orderTotal: 0,
-};
+const updateShoppingCart = (state, action) => {
+  if (state === undefined) {
+    return {
+      cartItems: [],
+      orderTotal: 0,
+    };
+  }
 
-const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_BOOKS_REQUEST:
-      return {
-        ...state,
-        books: [],
-        loading: true,
-        error: null,
-      };
-
-    case FETCH_BOOKS_SUCCESS:
-      return {
-        ...state,
-        books: action.payload,
-        loading: false,
-        error: null,
-      };
-
-    case FETCH_BOOKS_FAILURE:
-      return {
-        ...state,
-        books: [],
-        loading: false,
-        error: action.payload,
-      };
-
     case BOOK_ADDED_TO_CART:
       return updateOrder(state, action.payload, 1);
 
@@ -84,12 +59,13 @@ const reducer = (state = initialState, action) => {
       return updateOrder(state, action.payload, -1);
 
     case BOOK_REMOVED_FROM_CART:
-      const item = state.cartItems.find(({ id }) => id === action.payload);
+      const item = state.shoppingCart.cartItems.find(
+        ({ id }) => id === action.payload
+      );
       return updateOrder(state, action.payload, -item.count);
-
     default:
-      return state;
+      return state.shoppingCart;
   }
 };
 
-export default reducer;
+export default updateShoppingCart;
