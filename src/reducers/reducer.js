@@ -2,30 +2,20 @@ import {
   FETCH_BOOKS_REQUEST,
   FETCH_BOOKS_SUCCESS,
   FETCH_BOOKS_FAILURE,
+  BOOK_ADDED_TO_CART,
 } from '../actions/actionTypes';
 
 const initialState = {
   books: [],
   loading: true,
   error: null,
-  cartItems: [
-    {
-      id: 1,
-      title: 'Some BOOK',
-      count: 3,
-      total: 150,
-    },
-    {
-      id: 2,
-      title: 'One more BOOK',
-      count: 5,
-      total: 450,
-    },
-  ],
-  orderTotal: 870,
+  cartItems: [],
+  orderTotal: 0,
 };
 
 const reducer = (state = initialState, action) => {
+  console.log('reducer type', action.type, action.payload);
+
   switch (action.type) {
     case FETCH_BOOKS_REQUEST:
       return {
@@ -47,6 +37,19 @@ const reducer = (state = initialState, action) => {
         books: [],
         loading: false,
         error: action.payload,
+      };
+    case BOOK_ADDED_TO_CART:
+      const bookId = action.payload;
+      const book = state.books.find(book => book.id === bookId);
+      const newItem = {
+        id: book.id,
+        title: book.title,
+        count: 1,
+        total: book.price,
+      };
+      return {
+        ...state,
+        cartItems: [...state.cartItems, newItem],
       };
     default:
       return state;
