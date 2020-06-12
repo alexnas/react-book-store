@@ -1,6 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
+import {
+  getOrderTotal,
+  getCountTotal,
+} from '../../selectors/shoppingCartSelectors';
 import './ShopHeader.css';
 
 const Shopheader = ({ numItems, total }) => {
@@ -19,4 +24,11 @@ const Shopheader = ({ numItems, total }) => {
   );
 };
 
-export default Shopheader;
+const mapStateToProps = state => {
+  return {
+    total: getOrderTotal(state),
+    numItems: getCountTotal(state),
+  };
+};
+
+export default connect(mapStateToProps)(Shopheader);

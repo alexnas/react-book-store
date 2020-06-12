@@ -7,6 +7,10 @@ import {
   bookSubtractedFromCart,
   bookRemovedFromCart,
 } from '../../actions/actionCreators';
+import {
+  getCartItems,
+  getOrderTotal,
+} from '../../selectors/shoppingCartSelectors';
 
 const ShoppingCartTable = ({
   items,
@@ -68,10 +72,10 @@ const ShoppingCartTable = ({
   );
 };
 
-const mapStateToProps = ({ shoppingCart: { cartItems, orderTotal } }) => {
+const mapStateToProps = state => {
   return {
-    items: cartItems,
-    total: orderTotal,
+    items: getCartItems(state),
+    total: getOrderTotal(state),
   };
 };
 
